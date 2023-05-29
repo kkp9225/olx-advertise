@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -17,6 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
+@EnableEurekaClient
 public class OlxAdvertiseApplication {
 
 	public static void main(String[] args) {
@@ -36,5 +41,16 @@ public class OlxAdvertiseApplication {
 	private ApiInfo buildApiDoc() {
 		return new ApiInfo("Advertise API", "This API helps to see advertises", "1.0.0", "https://zensar.com/policy", new Contact("Kartik", "/zensar.com", "kartik.patil@zensar.com"), "GPL", "http://gpl.com", new ArrayList<VendorExtension>());
 	}
+	
+	@Bean
+	@LoadBalanced
+	   public RestTemplate getRestTemplate() {
+	      return new RestTemplate();
+	   }
+	
+	 @Bean
+	    WebClient webClient(WebClient.Builder builder) {
+	        return builder.build();
+	    }
 	
 }

@@ -1,4 +1,4 @@
-package com.olxadvertise.dto;
+package com.olxadvertise.entity;
 
 import java.util.Date;
 
@@ -12,12 +12,17 @@ import javax.persistence.Table;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+@Entity
+@Table(name = "advertise")
 @ApiModel(value = "This Model holds information about Advertise")
-public class Advertise {
+public class AdvertiseEntity {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	@ApiModelProperty(value = "Title of advertise")
 	private String title;
+	@Column(name = "current_price")
 	@ApiModelProperty(value = "Price of advertise")
 	private String price;
 	@ApiModelProperty(value = "Category-id of advertise")
@@ -37,9 +42,9 @@ public class Advertise {
 	@ApiModelProperty(value = "Status-id of advertise")
 	private int statusId;
 	
-	public Advertise() {}
+	public AdvertiseEntity() {}
 	
-	public Advertise(int id, String title, String price, int categoryId, String description, String username,
+	public AdvertiseEntity(int id, String title, String price, int categoryId, String description, String username,
 			Date createdDate, Date modifiedDate, String status, String category, int statusId) {
 		super();
 		this.id = id;
@@ -55,6 +60,13 @@ public class Advertise {
 		this.statusId = statusId;
 	}
 	
+	public AdvertiseEntity(int categoryId2, String description2, String price2, String title2) {
+		this.title = title2;
+		this.price = price2;
+		this.categoryId = categoryId2;
+		this.description = description2;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -124,10 +136,9 @@ public class Advertise {
 
 	@Override
 	public String toString() {
-		return "Advertise [id=" + id + ", title=" + title + ", price=" + price + ", categoryId=" + categoryId
+		return "AdvertiseEntity [id=" + id + ", title=" + title + ", price=" + price + ", categoryId=" + categoryId
 				+ ", description=" + description + ", username=" + username + ", createdDate=" + createdDate
 				+ ", modifiedDate=" + modifiedDate + ", status=" + status + ", category=" + category + ", statusId="
 				+ statusId + "]";
 	}
-	
 }
